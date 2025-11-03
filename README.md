@@ -4,11 +4,11 @@ Repository for scripts used in stastical analyses to determine the ability of po
 
 This repository has been archived on Zenodo and assigned a DOI:
 
-TO ADD
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17509999.svg)](https://doi.org/10.5281/zenodo.17509999)
 
 The associated publication for this repository:
 
-Jodi T Thomas, Alexander SF Berry, Matthew T Oetjens, Jesia G Berry, Alastair H MacLennan, Scott D Gordon, Andrew T Hale, Catherine M Olsen, David C Whiteman, Rebecca I Torene, David H Ledbetter, Nicholas G Martin, Clare L van Eyk, Jozef Gecz, Scott M Myers, Brittany L Mitchell, Mark A Corbett. Testing the performance of polygenic scores for multiple traits to explain cerebral palsy risk in two independent cohorts. In preparation.
+Jodi T Thomas, Alexander SF Berry, Matthew T Oetjens, Jesia G Berry, Alastair H MacLennan, Scott D Gordon, Andrew T Hale, Catherine M Olsen, David C Whiteman, Rebecca I Torene, David H Ledbetter, Nicholas G Martin, Clare L van Eyk, Jozef Gecz, Scott M Myers, Brittany L Mitchell, Mark A Corbett. Testing the performance of polygenic scores for multiple traits to explain cerebral palsy risk in two independent cohorts. Submitted.
 
 TO UPDATE AND ADD DOI BADGE WHEN PUBLISHED
 
