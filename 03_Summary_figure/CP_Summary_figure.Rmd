@@ -1,0 +1,122 @@
+---
+title: "Summary Figure for Statistical Analyses in Australian Cohort and MyCode for 'Testing the performance of polygenic scores for multiple traits to explain cerebral palsy risk in two independent cohorts'"
+author: "Jodi T Thomas"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    collapse: no
+    df_print: paged
+    highlight: textmate
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 12
+    toc: yes
+    toc_float: yes
+    toc_depth: 4
+    code_folding: hide
+  pdf_document:
+    df_print: default
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 12
+    highlight: tango
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+  word_document:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 12
+    highlight: tango
+    toc: yes
+    toc_depth: 2
+documentclass: article
+classoption: a4paper
+fontsize: 12pt
+mainfont: Arial
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE, warning=FALSE, message=FALSE, error=FALSE)
+options(tinytex.engine = 'xelatex')
+```
+
+```{r Setwd, results='markdown', eval=TRUE, echo=FALSE}
+#Set working directory to location of folder holding all files
+setwd("/path/Aus_CP_Biobank/R_Aus_CP_Biobank_PGS_regressions/02_Statistical_analysis/03_Summary_figure/")
+```
+
+```{r readRScripts, results='markdown', eval=TRUE, echo=FALSE}
+#Read in R scripts
+knitr::read_chunk('Scripts/01_Summary_figure.R')
+```
+
+```{r LoadDataRmd, eval = TRUE, echo = FALSE}
+# Full dataset results: Aus + MyCode
+load(file = "Results/Aus_MyCode_PGS_results_table.RData")
+
+``` 
+
+# Load Packages
+```{r LoadPackages, eval=TRUE}
+```
+
+# Summary Figure
+
+## Dataframe of all results
+
+```{r FullDataframe}
+
+```
+
+## Figure: Australian cohort and MyCode 
+
+* Results from full Australian cohort and Matched MyCode cohort
+* Using adjusted models for logistic regression
+
+```{r SummaryFigureFull, eval = TRUE, fig.height=15, fig.width=11}
+
+```
+
+Save Figure
+
+```{r SaveFigureFull}
+
+```
+
+## Figure: Australian cohort stratified by monogenic diagnosis
+
+* Results from full Australian cohort all data or stratified by monogenic diagnosis
+* Using adjusted models for logistic regression
+
+```{r SummaryFigureAusStrat, eval = TRUE, fig.height=15, fig.width=11}
+
+```
+
+Save Figure
+
+```{r SaveFigureAusStrat}
+
+```
+
+## Figure: All datasets checking age effect
+
+* Results from Australian cohort full data or controls restricted to youngest 525 participants and MyCode all data or MyCode data matched on age
+* Using adjusted models for logistic regression
+
+```{r SummaryFigureFullAndCheckAge, eval = TRUE, fig.height=15, fig.width=11}
+
+```
+
+Save Figure
+
+```{r SaveFigureFullAndCheckAge}
+
+```
+
+
+# SessionInfo
+```{r eval = TRUE}
+sessionInfo()
+```

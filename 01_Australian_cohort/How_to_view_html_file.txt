@@ -1,0 +1,5 @@
+To view a normal rendered HTML page from github:
+- click on the html file
+- click download raw file (downwards arrow icon) in top right corner
+- open the downloaded file which will be displayed as a rendered html
+

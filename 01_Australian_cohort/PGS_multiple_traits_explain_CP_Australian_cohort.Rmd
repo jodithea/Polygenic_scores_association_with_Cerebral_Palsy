@@ -1,0 +1,681 @@
+---
+title: "Statistical Analyses in Australian Cohort for 'Testing the performance of polygenic scores for multiple traits to explain cerebral palsy risk in two independent cohorts'"
+author: "Jodi T Thomas"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    collapse: no
+    df_print: paged
+    highlight: textmate
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 12
+    toc: yes
+    toc_float: yes
+    toc_depth: 4
+    code_folding: hide
+  pdf_document:
+    df_print: default
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 12
+    highlight: tango
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+  word_document:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 12
+    highlight: tango
+    toc: yes
+    toc_depth: 2
+documentclass: article
+classoption: a4paper
+fontsize: 12pt
+mainfont: Arial
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE, warning=FALSE, message=FALSE, error=FALSE)
+options(tinytex.engine = 'xelatex')
+```
+
+```{r Setwd, results='markdown', eval=TRUE, echo=FALSE}
+#Set working directory to location of folder holding all files
+setwd("/path/Aus_CP_Biobank/R_Aus_CP_Biobank_PGS_regressions/01_Australian_cohort/")
+```
+
+```{r readRScripts, results='markdown', eval=TRUE, echo=FALSE}
+#Read in R scripts
+knitr::read_chunk('Scripts/01_CP_Data.R')
+knitr::read_chunk('Scripts/02_Sample_sizes.R')
+knitr::read_chunk('Scripts/03_Check_PGS.R')
+knitr::read_chunk('Scripts/04_Exploration.R')
+knitr::read_chunk('Scripts/05_Fit_models.R')
+knitr::read_chunk('Scripts/06_Check_models.R')
+knitr::read_chunk('Scripts/07_Regression_results.R')
+knitr::read_chunk('Scripts/08_AUC_results.R')
+knitr::read_chunk('Scripts/09_R2_liability_results.R')
+```
+
+```{r LoadDataRmd, eval = TRUE, echo = FALSE}
+
+# Relatedness data
+related <- read.table("/path/Cerebral_palsy/Aus_CP_Biobank/Relatedness/Aus_CPBiobank_QSKIN_relatedness.genome", header = T)
+
+# Dataframe
+load(file = "Data/CP_df_not_related.Rdata")
+load(file = "Data/Monogenic_only_df.RData")
+load(file = "Data/Non_monogenic_df.RData")
+load(file = "Data/Young525_df.RData")
+
+# Lists of PGS variables and names
+load(file = "Data/PGS_variables.RData")
+load(file = "Data/PGS_names.RData")
+
+# Exploration
+load(file = "Results/Exploration.RData")
+
+# Regression Models
+load(file = "Results/Regression_models_with_covar.RData")
+load(file = "Results/Regression_models_no_covar.RData")
+# Regression dataframe
+load(file = "Results/regression_with_covar_df.RData")
+load(file = "Results/regression_no_covar_df.RData")
+
+# ROC Models
+load(file = "Results/roc_models.RData")
+# ROC dataframe
+load(file = "Results/roc_df.RData")
+
+# R2 liability
+load(file = "Results/r2l_df.RData")
+
+``` 
+
+
+# Load Packages
+```{r LoadPackages, eval=TRUE}
+```
+
+
+# Set Up Data
+
+## Read in the data
+```{r LoadData}
+
+```
+
+## Tidy Data
+
+* Genetic_Sex = sex of individual determined by genetic data. 1 = male, 2 = female
+* CP_all = presence of cerebral palsy. 1 = case, 0 = control
+  + Cases = all people in Aus CP biobank
+  + Controls = all people from QSKIN I and II
+* PC1 - PC20 = ancestry PCs
+* age_sample = age at when sample was given (saliva for QSKIN, blood for Aus CP Biobank)
+* FID = Family ID (CP_Adelaide_GSA for all individuals from Aus CP Biobank)
+* IID = Individual ID used for genetic data
+* CP_ID = ID used in Aus CP Biobank (not the genetic ID). FALSE for QSKIN individuals
+* PGS_trait_CT = PGS of trait using clumping and thresholding with all SNPs
+* PGS_trait_SBayesRC = PGS of trait using SBayesRC
+
+* Only in CP Aus Biobank individuals
+  + gestation = gestation duration in weeks
+  + birthwtgrams = birth weight in grams
+  + gmfcs = The gross motor classification function score. 1-5 or unknown
+  + genetic = confirmed monogenic diagnosis for CP in that individual by whole exome or whole genome sequencing. yes or no or unknown
+  + MRIorUSabnormal = Abnormal brain damage pattern found on MRI, CT or Ultrasound: yes or no. 'Unknown' is where we have no data on whether neuroimaging was done, whereas  'no imaging' indicates no neuroimaging has been done for that patient.
+    
+* Only in QSKIN individuals
+  + Have you ever been diagnosed with, experienced or been treated for any of the following conditions? 0 = no, 1 = yes
+    + EPILEPSY_QSKIN
+    + STROKE_QSKIN
+    + ADHD_QSKIN
+    + AUTISM_QSKIN
+
+```{r TidyData}
+
+```
+
+
+## Relatedness
+```{r Relatedness, eval = TRUE}
+
+```
+
+## Remove relatedness
+
+* Remove 1 individual from each pair that have pi_hat > 0.09375 with controls preferentially removed.
+  + This removes 3rd degree relatives (threshold is halfway between 3rd and 4th degree relatives)
+
+```{r RemoveRelatedness}
+
+```
+
+
+
+## Stratify Monogenic Diagnosis
+
+* Stratify dataset based on presence or absence of monogenic diagnosis for CP
+
+```{r StratDF}
+
+```
+
+## Restrict controls to youngest participants
+
+```{r AgeDF}
+
+```
+
+
+# Sample Sizes {.tabset .tabset-fade}
+
+## Full dataset
+```{r SampleSizesFullDF, eval = TRUE}
+
+```
+
+## Cases with a monogenic diagnosis
+```{r SampleSizesMonoDF, eval = TRUE}
+
+```
+
+## Cases without a monogenic diagnosis
+```{r SampleSizesNonMonoDF, eval = TRUE}
+
+```
+
+## Controls restricted to youngest 525 participants
+```{r SampleSizesYoung525DF, eval = TRUE}
+
+```
+
+## Age Distributions
+```{r CheckAgeDistribution, eval = TRUE}
+
+```
+
+
+# Check PGS
+
+* Check each PGS associates with appropriate self-report yes/no in QSKIN
+
+## Epilepsy
+
+```{r CheckPGSEpilepsy, eval = TRUE}
+
+```
+
+## Stroke
+
+```{r CheckPGSStroke, eval = TRUE}
+
+```
+
+## Autism
+
+```{r CheckPGSAutism, eval = TRUE}
+
+```
+
+## Cerebral Palsy
+```{r CheckPGSCP, eval = TRUE}
+
+```
+
+## Birth Weight
+```{r CheckPGSBirthWeight, eval = TRUE}
+
+```
+
+
+
+# Data Exploration {.tabset .tabset-fade}
+
+Set up data exploration
+```{r SetUpPGSVars}
+
+```
+
+```{r Exploration}
+
+```
+
+
+
+## Full dataset
+
+### Distribution of PGS (raw and standardised): Histograms
+
+```{r FullExplorePGSDistributionRawStand, eval = TRUE}
+
+```
+
+### Distribution of PGS (raw and standardised): Summary Table
+
+```{r FullExplorePGSDistributionRawStandSummaryTable, eval = TRUE}
+
+```
+
+### Distribution of PGS grouped by CP status
+
+```{r FullExploreDistributionbyCP, eval = TRUE, fig.height=12}
+
+```
+
+## Monogenic diagnosis only
+
+### Distribution of PGS (raw and standardised): Histograms
+
+```{r MonoExplorePGSDistributionRawStand, eval = TRUE}
+
+```
+
+### Distribution of PGS (raw and standardised): Summary Table
+
+```{r MonoExplorePGSDistributionRawStandSummaryTable, eval = TRUE}
+
+```
+
+### Distribution of PGS grouped by CP status
+
+```{r MonoExploreDistributionbyCP, eval = TRUE, fig.height=12}
+
+```
+
+## No monogenic diagnosis
+
+### Distribution of PGS (raw and standardised): Histograms
+
+```{r NonmonoExplorePGSDistributionRawStand, eval = TRUE}
+
+```
+
+### Distribution of PGS (raw and standardised): Summary Table
+
+```{r NonmonoExplorePGSDistributionRawStandSummaryTable, eval = TRUE}
+
+```
+
+### Distribution of PGS grouped by CP status
+
+```{r NonmonoExploreDistributionbyCP, eval = TRUE, fig.height=12}
+
+```
+
+
+## Youngest 525 controls
+
+### Distribution of PGS (raw and standardised): Histograms
+
+```{r Young525ExplorePGSDistributionRawStand, eval = TRUE}
+
+```
+
+### Distribution of PGS (raw and standardised): Summary Table
+
+```{r Young525ExplorePGSDistributionRawStandSummaryTable, eval = TRUE}
+
+```
+
+### Distribution of PGS grouped by CP status
+
+```{r Young525ExploreDistributionbyCP, eval = TRUE, fig.height=12}
+
+```
+
+# Fit Models
+
+## Logistic Regression {.tabset .tabset-fade}
+
+### Adjusted Models
+
+```{r RegrModelsWithCovar}
+
+```
+
+### Unadjusted Models
+```{r RegrModelsNoCovar}
+
+```
+
+
+## Receiver Operating Characteristic Curve
+
+
+```{r ROCFitPGS}
+
+```
+
+
+# Check Models {.tabset .tabset-fade}
+
+* PC5 and PC6 have high VIF, but as these are only as covariates to be adjusted for and not interested in their estimates OK
+
+## Full dataset: Adjusted Models
+
+### One PGS in each model
+
+#### Check_model
+```{r FullModelCheckPGSModelsWithCovarCheckModel}
+
+```
+
+#### DHARMa
+```{r FullModelCheckPGSModelsWithCovarDHARMa}
+
+```
+
+### All PGS in same model
+```{r FullModelWithCovarCheckAllPGSModel}
+
+```
+
+## Full dataset: Unadjusted Models
+
+### One PGS in each model
+
+#### Check_model
+```{r FullModelCheckPGSModelsNoCovarCheckModel}
+
+```
+
+#### DHARMa
+```{r FullModelCheckPGSModelsNoCovarDHARMa}
+
+```
+
+### All PGS in same model
+```{r FullModelNoCovarCheckAllPGSModel}
+
+```
+
+## Monogenic diagnosis only: Adjusted Models
+
+### One PGS in each model
+
+#### Check_model
+```{r MonoModelWithCovarCheckPGSModelsCheckModel}
+
+```
+
+#### DHARMa
+```{r MonoModelWithCovarCheckPGSModelsDHARMa}
+
+```
+
+### All PGS in same model
+```{r MonoModelWithCovarCheckAllPGSModel}
+
+```
+
+## Monogenic diagnosis only: Unadjusted Models
+
+### One PGS in each model
+
+#### Check_model
+```{r MonoModelNoCovarCheckPGSModelsCheckModel}
+
+```
+
+#### DHARMa
+```{r MonoModelNoCovarCheckPGSModelsDHARMa}
+
+```
+
+### All PGS in same model
+```{r MonoModelNoCovarCheckAllPGSModel}
+
+```
+
+
+## No monogenic diagnosis: Adjusted Models
+
+### One PGS in each model
+
+#### Check_model
+```{r NonmonoModelWithCovarCheckPGSModelsCheckModel}
+
+```
+
+#### DHARMa
+```{r NonmonoModelWithCovarheckPGSModelsDHARMa}
+
+```
+
+### All PGS in same model
+```{r NonmonoModelWithCovarCheckAllPGSModel}
+
+```
+
+
+## No monogenic diagnosis: Unadjusted Models
+
+### One PGS in each model
+
+#### Check_model
+```{r NonmonoModelNoCovarCheckPGSModelsCheckModel}
+
+```
+
+#### DHARMa
+```{r NonmonoModelNoCovarheckPGSModelsDHARMa}
+
+```
+
+### All PGS in same model
+```{r NonmonoModelNoCovarCheckAllPGSModel}
+
+```
+
+
+## Youngest 525 Controls: Adjusted Models
+
+### One PGS in each model
+
+#### Check_model
+```{r Young525ModelWithCovarCheckPGSModelsCheckModel}
+
+```
+
+#### DHARMa
+```{r Young525ModelWithCovarheckPGSModelsDHARMa}
+
+```
+
+### All PGS in same model
+```{r Young525ModelWithCovarCheckAllPGSModel}
+
+```
+
+## Youngest 525 Controls: Unadjusted Models
+
+### One PGS in each model
+
+#### Check_model
+```{r Young525ModelNoCovarCheckPGSModelsCheckModel}
+
+```
+
+#### DHARMa
+```{r Young525ModelNoCovarheckPGSModelsDHARMa}
+
+```
+
+### All PGS in same model
+```{r Young525ModelNoCovarCheckAllPGSModel}
+
+```
+
+
+
+
+# Regression Results {.tabset .tabset-fade}
+
+```{r ResultsRegr}
+
+```
+
+## Full dataset: Adjusted Models
+```{r FullResultsWithCovarRegrPrint, eval = TRUE}
+
+```
+
+## Full dataset: Unadjusted Models
+```{r FullResultsNoCovarRegrPrint, eval = TRUE}
+
+```
+
+## Monogenic diagnosis only: Adjusted Models
+```{r MonoResultsWithCovarRegrPrint, eval = TRUE}
+
+```
+
+## Monogenic diagnosis only: Unadjusted Models
+```{r MonoResultsNoCovarRegrPrint, eval = TRUE}
+
+```
+
+## No monogenic diagnosis: Adjusted Models
+```{r NonmonoResultsRegrPrint, eval = TRUE}
+
+```
+
+## No monogenic diagnosis: Unadjusted Models
+```{r NonmonoResultsNoCovarRegrPrint, eval = TRUE}
+
+```
+
+## Youngest 525 controls: Adjusted Models
+```{r Young525ResultsWithCovarRegrPrint, eval = TRUE}
+
+```
+
+## Youngest 525 controls: Unadjusted Models
+```{r Young525ResultsNoCovarRegrPrint, eval = TRUE}
+
+```
+
+
+# Receiver Operating Characteristic Curve Results
+
+* Area Under Receiver Operator Characteristic Curve (AUC)
+    + AUC = Probability that a randomly selected case has a higher test score than a randomly selected control
+    + Well established measure of validity of tests for classifier diseased vs nondiseased individuals
+    + Nice property  independent to proportion of cases and controls in sample
+    + Range 0.5 to 1
+    + 0.5 = the the PGS does not discriminate cases from controls, 1 = perfect discrimination
+
+
+## Results {.tabset .tabset-fade}
+
+```{r AUCResults}
+
+```
+
+### Full dataset
+
+#### Results
+```{r FullResultsAUCPrint, eval = TRUE}
+
+```
+
+#### AUC Plots
+
+```{r FullAUCPlot, eval = TRUE}
+
+```
+
+### Monogenic diagnosis only
+
+#### Results
+```{r MonoResultsAUCPrint, eval = TRUE}
+
+```
+
+#### AUC Plots
+```{r MonoAUCPlot, eval = TRUE}
+
+```
+
+### No monogenic diagnosis
+
+#### Results
+```{r NonmonoResultsAUCPrint, eval = TRUE}
+
+```
+
+#### AUC Plots
+```{r NonmonoAUCPlot, eval = TRUE}
+
+```
+
+### Youngest 525 controls
+
+#### Results
+```{r Young525ResultsAUCPrint, eval = TRUE}
+
+```
+
+#### AUC Plots
+```{r Young525AUCPlot, eval = TRUE}
+
+```
+
+# Variance Explained on the Liability Scale
+
+* Variance in CP risk explained on the liability scale, attributable to each PGS
+* Linear models
+  + Full model: CP(case/control) ~ covariates + score
+  + Reduced model: CP(case/control) ~ covariates
+* Convert observed R2 from each model to the liability scale using CP prevalence of 0.0014 (1 in 700 in Australia)
+  + Use R code from Lee SH, et al., A Better Coefficient of Determination for Genetic Profile Analysis. Genetic Epidemiology, 2012. 36(3):214-224.
+* R2 liability of full model - R2 liability of reduced model = R2 liability attributable to PGS
+
+## Function to convert observed to liability scale
+```{r VarExplainedLiabilityScaleFunction}
+
+```
+
+## Caluclate R^2 (liability)
+```{r VarExplainedLiabilityScale}
+
+```
+
+## Results {.tabset .tabset-fade}
+
+### Full dataset
+
+```{r FullR2lPrint, eval = TRUE}
+
+```
+
+### Monogenic diagnosis only
+
+```{r MonoR2lPrint, eval = TRUE}
+
+```
+
+### No monogenic diagnosis
+
+```{r NonmonoR2lPrint, eval = TRUE}
+
+```
+
+### Youngest 525 controls
+
+```{r Young525R2lPrint, eval = TRUE}
+
+```
+
+
+
+# SessionInfo
+```{r eval = TRUE}
+sessionInfo()
+```
+

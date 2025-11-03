@@ -1,0 +1,29 @@
+# R project files
+*.Rproj.user
+*.Rhistory
+*.RData
+*.Ruserdata
+*.Rproj
+
+# Notes about removing file paths
+Jodi_notes.txt
+
+# Australian Cohort
+## Trial scripts
+01_Australian_cohort/Scripts/Trial_all_on_EA_PGS.R
+01_Australian_cohort/Scripts/Trial_AUC_with_covariates.R
+## Data
+01_Australian_cohort/Data/
+## Model results
+01_Australian_cohort/Results/
+
+# MyCode
+
+
+# Summary Figure
+## Australian cohort specific results table
+03_Summary_figure/Results/Aus_all_PGS_results_table.RData
+03_Summary_figure/Results/Aus_all_PGS_results_table.txt
+03_Summary_figure/old_files/
+
+
