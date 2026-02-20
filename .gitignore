@@ -24,6 +24,11 @@ Jodi_notes.txt
 ## Australian cohort specific results table
 03_Summary_figure/Results/Aus_all_PGS_results_table.RData
 03_Summary_figure/Results/Aus_all_PGS_results_table.txt
+## Old files
 03_Summary_figure/old_files/
+## Genemappers Poster
+03_Summary_figure/Scripts/Figure_for_Genemappers_poster.R
+03_Summary_figure/Figures/Genemappers*
 
 
+.Rproj.user

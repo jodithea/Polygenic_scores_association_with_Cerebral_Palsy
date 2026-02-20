@@ -374,7 +374,7 @@ regr_plot_univ <- ggplot(star_data %>% filter(model == "univariate") %>% droplev
                      labels = c("0.67", "0.8", "1", "1.25", "1.5")) +
   scale_y_continuous("Polygenic Score",
                      breaks = sort(unique(star_data$PGS_num)),
-                   labels = c("Stroke", "Educational \nAttainment", "Epilepsy", "Autism", "Gestational \nduration", "Birth weight", "Walking age", "Cerebral Palsy")) +
+                   labels = c("Educational \nAttainment", "Epilepsy", "Autism", "Stroke", "Gestational \nduration", "Birth weight", "Walking age", "Cerebral Palsy")) +
   scale_colour_manual("Australian cohort",
                       labels = c("Full", "Monogenic", "Non-monogenic"),
                       values = c("#1F968BFF", "#73D055FF", "#DCE319FF")) +
@@ -419,7 +419,7 @@ regr_plot_multiv <- ggplot(star_data %>% filter(model == "multivariate" & PGS !=
                      labels = c("0.67", "0.8", "1", "1.25", "1.5")) +
   scale_y_continuous("",
                      breaks = sort(unique(star_data$PGS_num)),
-                   labels = c("Stroke", "Educational \nAttainment", "Epilepsy", "Autism", "Gestational \nduration", "Birth weight", "Walking age", "Cerebral Palsy")) +
+                   labels = c("Educational \nAttainment", "Epilepsy", "Autism", "Stroke", "Gestational \nduration", "Birth weight", "Walking age", "Cerebral Palsy")) +
   scale_colour_manual("Australian cohort",
                       labels = c("Full", "Monogenic", "Non-monogenic"),
                       values = c("#1F968BFF", "#73D055FF", "#DCE319FF")) +
