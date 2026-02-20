@@ -44,7 +44,7 @@ options(tinytex.engine = 'xelatex')
 
 ```{r Setwd, results='markdown', eval=TRUE, echo=FALSE}
 #Set working directory to location of folder holding all files
-setwd("/path/Aus_CP_Biobank/R_Aus_CP_Biobank_PGS_regressions/02_Statistical_analysis/03_Summary_figure/")
+setwd("/path/R_Aus_CP_Biobank_PGS_regressions/03_Summary_figure/")
 ```
 
 ```{r readRScripts, results='markdown', eval=TRUE, echo=FALSE}
