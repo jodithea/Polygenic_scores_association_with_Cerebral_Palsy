@@ -8,7 +8,8 @@ This repository has been archived on Zenodo and assigned a DOI:
 
 The associated publication for this repository:
 
-[![DOI](https://doi.org/10.1016/j.ebiom.2026.106208.svg)](https://doi.org/10.1016/j.ebiom.2026.106208)
+[![DOI](https://img.shields.io/badge/DOI-10.1016/j.ebiom.2026.106208-blue)](https://doi.org/10.1016/j.ebiom.2026.106208)
+
 
 Jodi T Thomas, Alexander SF Berry, Matthew T Oetjens, Jesia G Berry, Alastair H MacLennan, Scott D Gordon, Andrew T Hale, Catherine M Olsen, David C Whiteman, Rebecca I Torene, David H Ledbetter, Nicholas G Martin, Clare L van Eyk, Jozef Gecz, Scott M Myers, Brittany L Mitchell, Mark A Corbett. Testing the performance of polygenic scores for multiple traits to explain cerebral palsy in two independent cohorts. eBioMedicine 126, 106208 (2026).
 
